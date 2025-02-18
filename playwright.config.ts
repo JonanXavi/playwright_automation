@@ -20,6 +20,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 1,
   reporter: 'html',
   use: {
+    testIdAttribute: 'data-test',
     baseURL: ENV.BASE_URL,
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
