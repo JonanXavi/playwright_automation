@@ -7,5 +7,3 @@ export const generateUserData = () => {
         zip: faker.location.zipCode()
     };
 }
-
-//TODO: Reemplazar la data quemada en los tests
