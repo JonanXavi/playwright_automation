@@ -3,6 +3,7 @@ import { LoginPage } from '../../pages/login_page';
 import { ProductsPage } from '../../pages/products_page';
 import { CheckoutPage } from '../../pages/checkout_page';
 import { ENV } from '../../utils/env';
+import { generateUserData } from '../../utils/testdata'
 import products from '../../data/products.json';
 
 test.beforeEach(async ({ page }) => {
@@ -19,6 +20,7 @@ test.describe('Verify that the checkout functionality on the website works corre
         const productPage = new ProductsPage(page);
         const checkoutPage = new CheckoutPage(page);
         const productNames = products.map(product => product.name);
+        const userData = generateUserData();
 
         await test.step('Add products to the shopping cart', async () => {
             for (const product of productNames) {
@@ -35,9 +37,9 @@ test.describe('Verify that the checkout functionality on the website works corre
         })
 
         await test.step('Enter the required information in the "Checkout Information" form', async () => {
-            await checkoutPage.typeFirstName('Allen');
-            await checkoutPage.typeLastName('Brown');
-            await checkoutPage.typeZipCode('17839');
+            await checkoutPage.typeFirstName(userData.firstName);
+            await checkoutPage.typeLastName(userData.lastName);
+            await checkoutPage.typeZipCode(userData.zip);
         })
 
         await test.step('Click the "Continue" button in the "Checkout Information" section', async () => {
