@@ -12,6 +12,7 @@
   "author": "Jonathan Fernández",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^9.5.0",
     "@playwright/test": "^1.50.0",
     "@types/node": "^22.12.0",
     "dotenv": "^16.4.7"
