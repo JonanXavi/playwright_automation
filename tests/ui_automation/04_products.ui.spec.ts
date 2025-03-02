@@ -4,17 +4,15 @@ import { ProductsPage } from '../../pages/products_page';
 import { ENV } from '../../utils/env';
 import products from '../../data/products.json';
 
-test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+test.describe('Verify that the products page on the website works correctly', { tag: '@ui'}, () => {
+    test.beforeEach(async ({ page }) => {
+        const loginPage = new LoginPage(page);
 
-    await page.goto('/');
-    await loginPage.login(ENV.USER, ENV.PASSWORD);
-});
+        await page.goto('/');
+        await loginPage.login(ENV.USER, ENV.PASSWORD);
+    });
 
-test.describe('Verify that the products page on the website works correctly', () => {
-    test('Ensure that products are displayed properly on the PLP (Product Listing Page)', {
-        tag: ['@automation'],
-    }, async ({ page }) => {
+    test('Ensure that products are displayed properly on the PLP (Product Listing Page)', async ({ page }) => {
         const productPage = new ProductsPage(page);
         const productNames = products.map(product => product.name);
         const productDetails = products.map(product => product.description);

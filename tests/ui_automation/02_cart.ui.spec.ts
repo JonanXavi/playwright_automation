@@ -5,17 +5,15 @@ import { CartPage } from '../../pages/cart_page';
 import { ENV } from '../../utils/env';
 import products from '../../data/products.json';
 
-test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+test.describe('Verify that the cart functionality on the website works correctly', { tag: '@ui'},  () => {
+    test.beforeEach(async ({ page }) => {
+        const loginPage = new LoginPage(page);
 
-    await page.goto('/');
-    await loginPage.login(ENV.USER, ENV.PASSWORD);
-})
+        await page.goto('/');
+        await loginPage.login(ENV.USER, ENV.PASSWORD);
+    })
 
-test.describe('Verify that the cart functionality on the website works correctly', () => {
-    test('Add products to the cart from the PLP (Product Listing Page) on the website', {
-        tag: ['@automation'],
-    }, async ({ page }) => {
+    test('Add products to the cart from the PLP (Product Listing Page) on the website', async ({ page }) => {
         const productPage = new ProductsPage(page);
         const productNames = products.map(product => product.name);
         const productsNumber = productNames.length;
@@ -31,9 +29,7 @@ test.describe('Verify that the cart functionality on the website works correctly
         })
     })
 
-    test('Add products to the cart from the PDP (Product Detail Page) on the website', {
-        tag: ['@automation'],
-    }, async ({ page }) => {
+    test('Add products to the cart from the PDP (Product Detail Page) on the website', async ({ page }) => {
         const productPage = new ProductsPage(page);
         const cartPage = new CartPage(page);
         const productNames = products.map(product => product.name);

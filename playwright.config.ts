@@ -20,10 +20,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 1,
   reporter: 'html',
   use: {
-    testIdAttribute: 'data-test',
     baseURL: ENV.BASE_URL,
-    trace: 'retain-on-failure',
-    video: 'retain-on-failure',
+    ignoreHTTPSErrors: true,
   },
 
   projects: [
@@ -32,27 +30,28 @@ export default defineConfig({
       testMatch: /.*\.setup\.ts/
     },
     {
-      name: 'chromium',
+      name: 'ui_test',
+      testMatch: /.*\.ui\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         storageState: '.auth/login.json',
+        testIdAttribute: 'data-test',
+        screenshot: 'only-on-failure',
+        trace: 'retain-on-failure',
+        video: 'retain-on-failure',
       },
       dependencies: ['setup'],
     },
-
-    /*{
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'api_test',
+      testMatch: /.*\.api\.spec\.ts/,
+      //! API
+      use: {
+        baseURL: 'https://restful-booker.herokuapp.com',
+        extraHTTPHeaders: {
+          'Content-Type': 'application/json'
+        },
+      },
     },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },*/
   ],
 });
