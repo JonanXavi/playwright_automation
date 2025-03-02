@@ -6,17 +6,15 @@ import { ENV } from '../../utils/env';
 import { generateUserData } from '../../utils/testdata'
 import products from '../../data/products.json';
 
-test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+test.describe('Verify that the checkout functionality on the website works correctly', { tag: '@ui'}, () => {
+    test.beforeEach(async ({ page }) => {
+        const loginPage = new LoginPage(page);
 
-    await page.goto('/');
-    await loginPage.login(ENV.USER, ENV.PASSWORD);
-});
+        await page.goto('/');
+        await loginPage.login(ENV.USER, ENV.PASSWORD);
+    });
 
-test.describe('Verify that the checkout functionality on the website works correctly', () => {
-    test('Ensure that purchases can be completed on the website', {
-        tag: ['@automation'],
-    }, async ({ page }) => {
+    test('Ensure that purchases can be completed on the website', async ({ page }) => {
         const productPage = new ProductsPage(page);
         const checkoutPage = new CheckoutPage(page);
         const productNames = products.map(product => product.name);

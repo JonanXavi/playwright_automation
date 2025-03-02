@@ -5,14 +5,12 @@ import users from '../../data/users.json';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-})
+test.describe('Verify that the login functionality on the website works correctly', { tag: '@ui'}, () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/');
+    })
 
-test.describe('Verify that the login functionality on the website works correctly', () => {
-    test('All mandatory fields are present in the "Login" form', {
-        tag: ['@automation'],
-    }, async ({ page }) => {
+    test('All mandatory fields are present in the "Login" form', async ({ page }) => {
         const loginPage = new LoginPage(page);
         const userData = users[0];
 
@@ -36,9 +34,7 @@ test.describe('Verify that the login functionality on the website works correctl
         })
     })
 
-    test('Ensure that login is not possible using a blocked user', {
-        tag: ['@automation'],
-    }, async ({ page }) => {
+    test('Ensure that login is not possible using a blocked user', async ({ page }) => {
         const loginPage = new LoginPage(page);
         const userData = users[0];
 
@@ -57,9 +53,7 @@ test.describe('Verify that the login functionality on the website works correctl
         })
     })
 
-    test('Ensure that login is possible using a registered user', {
-        tag: ['@automation'],
-    }, async ({ page }) => {
+    test('Ensure that login is possible using a registered user', async ({ page }) => {
         const loginPage = new LoginPage(page);
         const productsPage = new ProductsPage(page);
         const userData = users[1];
