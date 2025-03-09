@@ -1,9 +1,14 @@
 {
   "name": "playwright_automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web automation project with playwright",
   "main": "index.ts",
-  "scripts": {},
+  "scripts": {
+    "test:ui-headed": "rimraf allure-results && npx playwright test --project=ui_test --headed --grep \"@ui\"",
+    "test:ui": "rimraf allure-results && npx playwright test --project=ui_test --grep \"@ui\"",
+    "test:api": "rimraf allure-results && npx playwright test --project=api_test --grep \"@api\"",
+    "test:report": "npx allure generate ./allure-results --clean --single-file"
+  },
   "keywords": [
     "playwright",
     "typescript",
@@ -13,8 +18,10 @@
   "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "^9.5.0",
-    "@playwright/test": "^1.50.0",
+    "@playwright/test": "^1.51.0",
     "@types/node": "^22.12.0",
-    "dotenv": "^16.4.7"
+    "allure-playwright": "^3.2.0",
+    "dotenv": "^16.4.7",
+    "rimraf": "^6.0.1"
   }
 }

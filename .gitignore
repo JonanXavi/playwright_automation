@@ -5,8 +5,10 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-.idea
-.auth
+/allure-report/
+/allure-results/
+/.idea/
+/.auth/
 .env.prod
 .env.dev
 .env.stg
