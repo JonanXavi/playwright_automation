@@ -4,7 +4,6 @@ import { ENV } from "./utils/env";
 
 const environment = process.env.ENVIRONMENT || 'dev';
 const envFile = `.env.${environment}`;
-console.log('Environment file:', envFile);
 
 config({
   path: envFile,
@@ -18,7 +17,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 2,
   workers: process.env.CI ? 1 : 1,
-  reporter: 'html',
+  reporter: [
+      ['allure-playwright']
+  ],
   use: {
     baseURL: ENV.BASE_URL,
     ignoreHTTPSErrors: true,
@@ -45,7 +46,6 @@ export default defineConfig({
     {
       name: 'api_test',
       testMatch: /.*\.api\.spec\.ts/,
-      //! API
       use: {
         baseURL: 'https://restful-booker.herokuapp.com',
         extraHTTPHeaders: {
