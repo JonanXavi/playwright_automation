@@ -72,6 +72,28 @@ npm run test:report
 ```
 This will generate the reports in the `allure-results` folder.
 
+## 📂 Project Structure
+```bash
+📁 playwright_automation
+├── 📁 .auth
+├── 📁 allure-report
+├── 📁 allure-results
+├── 📁 data
+├── 📁 pages
+├── 📁 test-results
+├── 📁 tests
+│   ├── 📁 api_automation
+│   ├── 📁 ui_automation
+│   └── 📋 auth.setup.ts
+├── 📁 utils
+├── 🔐 .env
+├── 🚫 .gitignore
+├── 📦 package.json
+├── 📦 package-lock.json
+├── 🎭 playwright.config.ts
+└── 🔧 tsconfig.json
+```
+
 ## Author
 - [@jonanxavi](https://www.github.com/jonanxavi)
 
