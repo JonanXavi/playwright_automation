@@ -1,14 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import { config } from "dotenv";
 import { ENV } from "./utils/env";
-
-const environment = process.env.ENVIRONMENT || 'dev';
-const envFile = `.env.${environment}`;
-
-config({
-  path: envFile,
-  override: true,
-});
 
 export default defineConfig({
   testDir: './tests',
