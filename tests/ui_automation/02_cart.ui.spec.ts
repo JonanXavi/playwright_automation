@@ -36,7 +36,7 @@ test.describe('Verify that the cart functionality on the website works correctly
 
         await test.step('Click on a product, add it to the cart, and return to the products page', async () => {
             for (const product of productNames) {
-                await productPage.clickOnProduct(product)
+                await productPage.clickOnProduct(product);
                 await productPage.clickAddToCartButton();
                 await productPage.clickBackToProductsButton();
             }
