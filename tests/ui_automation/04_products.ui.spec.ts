@@ -10,7 +10,7 @@ test.describe('Verify that the products page on the website works correctly', { 
 
         await page.goto('/');
         await loginPage.login(ENV.USER, ENV.PASSWORD);
-    });
+    })
 
     test('Ensure that products are displayed properly on the PLP (Product Listing Page)', async ({ page }) => {
         const productPage = new ProductsPage(page);
