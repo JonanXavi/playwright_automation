@@ -55,7 +55,12 @@ PASSWORD=pw2025
 > $env:ENVIRONMENT = "dev"; npx playwright test
 > ```
 
-### Run UI Tests
+### Run UI Tests - Headed
+```bash
+npm run test:ui-headed
+```
+
+### Run UI Tests - Headless
 ```bash
 npm run test:ui
 ```
