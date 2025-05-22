@@ -12,7 +12,7 @@ test.describe('Verify that the checkout functionality on the website works corre
 
         await page.goto('/');
         await loginPage.login(ENV.USER, ENV.PASSWORD);
-    });
+    })
 
     test('Ensure that purchases can be completed on the website', async ({ page }) => {
         const productPage = new ProductsPage(page);
