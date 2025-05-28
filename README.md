@@ -20,7 +20,14 @@ npm install
 > ```
 
 ## 🌎 Environment Configuration
-The project allows execution in different environments (dev, prod). To define the execution environment, you need to configure `.env` files within the project.
+The project allows execution in different environments (api, dev, prod). To define the execution environment, you need to configure `.env` files within the project.
+
+Example of `.env.api`:
+```ini
+URL=https://restful-booker.herokuapp.com
+USER=admin
+PASSWORD=password123
+```
 
 Example of `.env.dev`:
 ```ini
