@@ -1,9 +1,10 @@
 import { request } from '@playwright/test';
+import { ENV } from './env'
 
-const API_URL = 'https://restful-booker.herokuapp.com';
+const API_URL = ENV.BASE_URL;
 const CREDENTIALS = {
-    username: 'admin',
-    password: 'password123'
+    username: ENV.USER,
+    password: ENV.PASSWORD
 };
 
 export async function getAuthToken(): Promise<string> {

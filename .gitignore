@@ -9,6 +9,7 @@ node_modules/
 /allure-results/
 /.idea/
 /.auth/
+.env.api
 .env.prod
 .env.dev
 .env.stg

@@ -38,7 +38,6 @@ export default defineConfig({
       name: 'api_test',
       testMatch: /.*\.api\.spec\.ts/,
       use: {
-        baseURL: 'https://restful-booker.herokuapp.com',
         extraHTTPHeaders: {
           'Content-Type': 'application/json'
         },
