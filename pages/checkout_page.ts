@@ -1,5 +1,4 @@
 import { type Locator, type Page} from '@playwright/test';
-import { clickOnButton } from '../utils/interactions';
 
 export class CheckoutPage {
     readonly page: Page;
@@ -8,6 +7,9 @@ export class CheckoutPage {
     readonly zipCodeInput: Locator;
     readonly orderHeaderText: Locator;
     readonly orderMessageText: Locator;
+    readonly checkoutBtn: Locator;
+    readonly continueBtn: Locator;
+    readonly finishBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -16,10 +18,13 @@ export class CheckoutPage {
         this.zipCodeInput = page.getByPlaceholder('Zip/Postal Code');
         this.orderHeaderText = page.getByTestId('complete-header');
         this.orderMessageText = page.getByTestId('complete-text');
+        this.checkoutBtn = page.getByRole('button', { name: 'checkout' });
+        this.continueBtn = page.getByRole('button', { name: 'continue' });
+        this.finishBtn = page.getByRole('button', { name: 'finish' });
     }
 
     async clickCheckoutButton() {
-        await clickOnButton(this.page, 'checkout');
+        await this.checkoutBtn.click();
     }
 
     async typeFirstName(name: string) {
@@ -35,11 +40,11 @@ export class CheckoutPage {
     }
 
     async clickContinueButton() {
-        await clickOnButton(this.page, 'continue');
+        await this.continueBtn.click();
     }
 
     async clickFinishButton() {
-        await clickOnButton(this.page, 'finish');
+        await this.finishBtn.click();
     }
 
     async getOrderHeaderText() {

@@ -1,17 +1,24 @@
 import { type Locator, type Page} from '@playwright/test';
-import { clickOnButton } from '../utils/interactions';
 
 export class LoginPage {
     readonly page: Page;
+    readonly logo: Locator;
     readonly usernameInput: Locator;
     readonly passwordInput: Locator;
+    readonly loginBtn: Locator;
     readonly errorMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.logo = page.getByText('Swag Labs');
         this.usernameInput = page.getByPlaceholder('Username');
         this.passwordInput = page.getByPlaceholder('Password');
+        this.loginBtn = page.getByRole('button', { name: 'Login' });
         this.errorMessage = page.getByTestId('error');
+    }
+
+    async isLogoVisible() {
+        return await this.logo.isVisible();
     }
 
     async typeUsername(username: string) {
@@ -23,7 +30,7 @@ export class LoginPage {
     }
 
     async clickLoginButton() {
-        await clickOnButton(this.page, 'Login');
+        await this.loginBtn.click();
     }
 
     async getErrorMessage() {

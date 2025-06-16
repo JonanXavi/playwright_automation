@@ -91,6 +91,8 @@ This will generate the reports in the `allure-results` folder.
 ├── 📁 allure-report
 ├── 📁 allure-results
 ├── 📁 data
+├── 📁 fixtures
+│   └── 📋 base.ts
 ├── 📁 pages
 ├── 📁 test-results
 ├── 📁 tests

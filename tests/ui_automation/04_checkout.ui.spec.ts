@@ -1,54 +1,48 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/base';
 import { LoginPage } from '../../pages/login_page';
-import { ProductsPage } from '../../pages/products_page';
-import { CheckoutPage } from '../../pages/checkout_page';
 import { ENV } from '../../utils/env';
 import { generateUserData } from '../../utils/testdata'
 import products from '../../data/products.json';
 
-test.describe('Verify that the checkout functionality on the website works correctly', { tag: '@ui'}, () => {
+test.describe('Validate the correct behavior of the checkout functionality on the website', { tag: '@ui'}, () => {
     test.beforeEach(async ({ page }) => {
         const loginPage = new LoginPage(page);
-
-        await page.goto('/');
         await loginPage.login(ENV.USER, ENV.PASSWORD);
     })
 
-    test('Ensure that purchases can be completed on the website', async ({ page }) => {
-        const productPage = new ProductsPage(page);
-        const checkoutPage = new CheckoutPage(page);
+    test('Confirm that purchases can be successfully completed on the website', async ({ page, productsPage, checkoutPage }) => {
         const productNames = products.map(product => product.name);
         const userData = generateUserData();
 
         await test.step('Add products to the shopping cart', async () => {
             for (const product of productNames) {
-                await productPage.addProductToCartFromPLP(product);
+                await productsPage.addProductToCartFromPLP(product);
             }
         })
 
-        await test.step('Click on the shopping cart icon', async () => {
-            await productPage.clickOnTheShoppingCart();
+        await test.step('Click the shopping cart icon to open the cart', async () => {
+            await productsPage.clickOnTheShoppingCart();
         })
 
-        await test.step('Click the "Checkout" button in the cart', async () => {
+        await test.step('Click the “Checkout” button', async () => {
             await checkoutPage.clickCheckoutButton();
         })
 
-        await test.step('Enter the required information in the "Checkout Information" form', async () => {
+        await test.step('Enter the required information in the “Checkout Information” form', async () => {
             await checkoutPage.typeFirstName(userData.firstName);
             await checkoutPage.typeLastName(userData.lastName);
             await checkoutPage.typeZipCode(userData.zip);
         })
 
-        await test.step('Click the "Continue" button in the "Checkout Information" section', async () => {
+        await test.step('Click the “Continue” button', async () => {
             await checkoutPage.clickContinueButton();
         })
 
-        await test.step('Click the "Finish" button in the "Checkout Overview" section', async () => {
+        await test.step('Click the “Finish” button in the “Checkout Overview” section', async () => {
             await checkoutPage.clickFinishButton();
         })
 
-        await test.step('Confirm that the order has been successfully created', async () => {
+        await test.step('Verify that the order has been successfully created', async () => {
             const actualHeaderText = await checkoutPage.getOrderHeaderText();
             const actualMessageText = await checkoutPage.getOrderMessageText();
 
