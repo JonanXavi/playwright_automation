@@ -3,12 +3,10 @@ import { type Locator, type Page} from '@playwright/test';
 export class CartPage {
     readonly page: Page;
     readonly cartItem: Locator;
-    readonly deleteBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.cartItem = page.getByTestId('inventory-item');
-        this.deleteBtn = page.getByRole('button', { name: 'Remove' });
     }
 
     async getProductNames() {

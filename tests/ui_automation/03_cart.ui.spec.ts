@@ -39,7 +39,7 @@ test.describe('Validate the correct behavior of the cart functionality on the we
             await productsPage.clickOnTheShoppingCart();
         })
 
-        await test.step('verify that all selected products are correctly listed in the shopping cart', async () => {
+        await test.step('Verify that all selected products are correctly listed in the shopping cart', async () => {
             const actualProductNames = await cartPage.getProductNames();
             expect(actualProductNames).toEqual(productNames);
         })
