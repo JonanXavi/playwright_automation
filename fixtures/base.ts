@@ -1,9 +1,11 @@
 import { test as base } from '@playwright/test';
 import { ENV } from '../utils/env';
-import { LoginPage } from '../pages/login_page';
-import { ProductsPage } from '../pages/products_page';
-import { CartPage } from '../pages/cart_page';
-import { CheckoutPage } from '../pages/checkout_page';
+import { AuthPage } from '../pages/auth/auth_page';
+import { MenuPage } from "../pages/menu/menu_page";
+import { ProductListPage } from "../pages/product/plp_page";
+import { ProductDetailPage } from "../pages/product/pdp_page";
+import { CartPage } from '../pages/cart/cart_page';
+import { CheckoutPage } from '../pages/checkout/checkout_page';
 
 interface User {
     username: string;
@@ -12,8 +14,10 @@ interface User {
 
 type BaseFixtures = {
     testUser: User;
-    loginPage: LoginPage;
-    productsPage: ProductsPage;
+    authPage: AuthPage;
+    menuPage: MenuPage;
+    productListPage: ProductListPage;
+    productDetailPage: ProductDetailPage;
     cartPage: CartPage;
     checkoutPage: CheckoutPage;
 };
@@ -34,12 +38,20 @@ export const test = base.extend<BaseFixtures>({
         await use(page);
     },
 
-    loginPage: async ({ page }, use) => {
-        await use(new LoginPage(page));
+    authPage: async ({ page }, use) => {
+        await use(new AuthPage(page));
     },
 
-    productsPage: async ({ page }, use) => {
-        await use(new ProductsPage(page));
+    menuPage: async ({ page }, use) => {
+        await use(new MenuPage(page));
+    },
+
+    productListPage: async ({ page }, use) => {
+        await use(new ProductListPage(page));
+    },
+
+    productDetailPage: async ({ page }, use) => {
+        await use(new ProductDetailPage(page));
     },
 
     cartPage: async ({ page }, use) => {

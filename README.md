@@ -3,7 +3,7 @@ This project uses the Playwright framework with TypeScript to perform **end-to-e
 
 ## 📋 Requirements
 To run the project, the following requirements must be met:
-- [Node.js](https://nodejs.org/) (version 18 or higher)
+- [Node.js](https://nodejs.org/) (version 20 or higher)
 - [npm](https://www.npmjs.com/) o [yarn](https://yarnpkg.com/)
 - [allure-npm](https://github.com/allure-framework/allure-npm)
 
@@ -105,6 +105,7 @@ This will generate the reports in the `allure-results` folder.
 ├── 📦 package.json
 ├── 📦 package-lock.json
 ├── 🎭 playwright.config.ts
+├── 📃 README.md
 └── 🔧 tsconfig.json
 ```
 

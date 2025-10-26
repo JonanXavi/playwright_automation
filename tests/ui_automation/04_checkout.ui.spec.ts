@@ -1,27 +1,27 @@
 import { test, expect } from '../../fixtures/base';
-import { LoginPage } from '../../pages/login_page';
+import { AuthPage } from "../../pages/auth/auth_page";
 import { ENV } from '../../utils/env';
 import { generateUserData } from '../../utils/testdata'
 import products from '../../data/products.json';
 
 test.describe('Validate the correct behavior of the checkout functionality on the website', { tag: '@ui'}, () => {
     test.beforeEach(async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login(ENV.USER, ENV.PASSWORD);
+        const authPage = new AuthPage(page);
+        await authPage.login(ENV.USER, ENV.PASSWORD);
     })
 
-    test('Confirm that purchases can be successfully completed on the website', async ({ page, productsPage, checkoutPage }) => {
+    test('Confirm that purchases can be successfully completed on the website', async ({ productListPage, checkoutPage }) => {
         const productNames = products.map(product => product.name);
         const userData = generateUserData();
 
         await test.step('Add products to the shopping cart', async () => {
             for (const product of productNames) {
-                await productsPage.addProductToCartFromPLP(product);
+                await productListPage.addProductToCartFromPLP(product);
             }
         })
 
         await test.step('Click the shopping cart icon to open the cart', async () => {
-            await productsPage.clickOnTheShoppingCart();
+            await productListPage.clickOnTheShoppingCart();
         })
 
         await test.step('Click the “Checkout” button', async () => {
