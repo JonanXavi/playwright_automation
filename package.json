@@ -1,9 +1,10 @@
 {
   "name": "playwright_automation",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Web automation project with playwright",
   "main": "index.ts",
   "scripts": {
+    "pretest": "tsc --noEmit && eslint tests/**",
     "test:ui-headed": "rimraf allure-results && npx playwright test --project=ui_test --headed --grep \"@ui\"",
     "test:ui": "rimraf allure-results && npx playwright test --project=ui_test --grep \"@ui\"",
     "test:api": "rimraf allure-results && npx playwright test --project=api_test --grep \"@api\"",
@@ -17,12 +18,17 @@
   "author": "Jonathan Fernández",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^9.38.0",
     "@faker-js/faker": "^9.5.0",
     "@playwright/test": "^1.51.0",
+    "@types/eslint__js": "^8.42.3",
     "@types/node": "^22.12.0",
     "allure-commandline": "^2.34.0",
     "allure-playwright": "^3.2.0",
     "dotenv": "^16.4.7",
-    "rimraf": "^6.0.1"
+    "eslint": "^9.38.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2"
   }
 }
