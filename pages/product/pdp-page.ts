@@ -1,20 +1,20 @@
-import { type Locator, type Page} from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 
 export class ProductDetailPage {
     readonly page: Page;
     readonly productName: Locator;
     readonly productDetail: Locator;
     readonly productPrice: Locator;
-    readonly addToCardBtn: Locator;
-    readonly backToProductsBtn: Locator;
+    readonly addToCardButton: Locator;
+    readonly backToProductsButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.productName = page.getByTestId('inventory-item-name');
         this.productDetail = page.getByTestId('inventory-item-desc');
         this.productPrice = page.getByTestId('inventory-item-price');
-        this.addToCardBtn = page.getByRole('button', { name: 'Add to cart' });
-        this.backToProductsBtn = page.getByRole('button', { name: 'Back to products' });
+        this.addToCardButton = page.getByRole('button', { name: 'Add to cart' });
+        this.backToProductsButton = page.getByRole('button', { name: 'Back to products' });
     }
 
     async getProductName() {
@@ -30,10 +30,10 @@ export class ProductDetailPage {
     }
 
     async clickAddToCartButton() {
-        await this.addToCardBtn.click();
+        await this.addToCardButton.click();
     }
 
     async clickBackToProductsButton() {
-        await this.backToProductsBtn.click();
+        await this.backToProductsButton.click();
     }
 }

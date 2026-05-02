@@ -1,17 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "noEmit": true,
-    "types": ["node", "@playwright/test"],
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "allowJs": false
-  },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules", "allure-report", "allure-results", "test-results"]
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "noEmit": true,
+        "types": ["node", "@playwright/test"],
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "allowJs": false
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules", "allure-report", "allure-results", "test-results"]
 }
