@@ -4,9 +4,9 @@ export const generateUserData = () => {
     return {
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
-        zip: faker.location.zipCode()
+        zip: faker.location.zipCode(),
     };
-}
+};
 
 export const generateBookingData = () => {
     return {
@@ -16,8 +16,8 @@ export const generateBookingData = () => {
         depositPaid: faker.datatype.boolean(),
         bookingDates: {
             checkin: faker.date.soon().toISOString().split('T')[0],
-            checkout: faker.date.future().toISOString().split('T')[0]
+            checkout: faker.date.future().toISOString().split('T')[0],
         },
-        additionalNeeds: faker.helpers.arrayElement(['Breakfast', 'Dinner', 'None'])
+        additionalNeeds: faker.helpers.arrayElement(['Breakfast', 'Dinner', 'None']),
     };
-}
+};

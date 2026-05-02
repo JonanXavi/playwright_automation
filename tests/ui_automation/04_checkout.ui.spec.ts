@@ -1,53 +1,62 @@
 import { test, expect } from '../../fixtures/base';
-import { AuthPage } from "../../pages/auth/auth_page";
+import * as allure from 'allure-js-commons';
 import { ENV } from '../../utils/env';
-import { generateUserData } from '../../utils/testdata'
+import { generateUserData } from '../../utils/testdata';
 import products from '../../data/products.json';
 
-test.describe('Validate the correct behavior of the checkout functionality on the website', { tag: '@ui'}, () => {
-    test.beforeEach(async ({ page }) => {
-        const authPage = new AuthPage(page);
-        await authPage.login(ENV.USER, ENV.PASSWORD);
-    })
+test.describe('Checkout | Purchase flow', { tag: '@ui' }, () => {
+    test.beforeEach(async ({ authPage }) => {
+        await allure.owner('Jonathan Fernández');
+        await allure.tags('Checkout');
 
-    test('Confirm that purchases can be successfully completed on the website', async ({ productListPage, checkoutPage }) => {
-        const productNames = products.map(product => product.name);
+        await authPage.login(ENV.USER, ENV.PASSWORD);
+    });
+
+    test('Allows users to successfully complete a purchase', async ({ productListPage, cartPage, checkoutPage }) => {
+        await allure.severity('blocker');
+        await allure.description(
+            'Verifies that a user can successfully complete the full purchase flow, including cart review, checkout form submission, and order confirmation.'
+        );
+
+        const productNames = products.map((product) => product.name);
         const userData = generateUserData();
 
         await test.step('Add products to the shopping cart', async () => {
             for (const product of productNames) {
                 await productListPage.addProductToCartFromPLP(product);
             }
-        })
+        });
 
-        await test.step('Click the shopping cart icon to open the cart', async () => {
+        await test.step('Open the shopping cart', async () => {
             await productListPage.clickOnTheShoppingCart();
-        })
+        });
 
-        await test.step('Click the “Checkout” button', async () => {
-            await checkoutPage.clickCheckoutButton();
-        })
+        await test.step('Proceed to checkout', async () => {
+            await cartPage.clickCheckoutButton();
+        });
 
-        await test.step('Enter the required information in the “Checkout Information” form', async () => {
+        await test.step('Enter valid checkout information', async () => {
             await checkoutPage.typeFirstName(userData.firstName);
             await checkoutPage.typeLastName(userData.lastName);
             await checkoutPage.typeZipCode(userData.zip);
-        })
+        });
 
-        await test.step('Click the “Continue” button', async () => {
+        await test.step('Continue to the checkout overview', async () => {
             await checkoutPage.clickContinueButton();
-        })
+        });
 
-        await test.step('Click the “Finish” button in the “Checkout Overview” section', async () => {
+        await test.step('Complete the purchase', async () => {
             await checkoutPage.clickFinishButton();
-        })
+        });
 
-        await test.step('Verify that the order has been successfully created', async () => {
+        await test.step('Validate that the order confirmation is displayed', async () => {
             const actualHeaderText = await checkoutPage.getOrderHeaderText();
             const actualMessageText = await checkoutPage.getOrderMessageText();
 
             expect.soft(actualHeaderText).toContain('Thank you for your order!');
-            expect.soft(actualMessageText).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
-        })
-    })
-})
+            expect
+                .soft(actualMessageText)
+                .toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
+        });
+    });
+});

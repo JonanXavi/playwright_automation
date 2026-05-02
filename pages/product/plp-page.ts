@@ -1,9 +1,9 @@
-import { type Locator, type Page} from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 
 export class ProductListPage {
     readonly page: Page;
-    readonly menuBtn: Locator;
-    readonly shoppingCartBtn: Locator;
+    readonly menuButton: Locator;
+    readonly shoppingCartButton: Locator;
     readonly shoppingCartBadge: Locator;
     readonly productsHeader: Locator;
     readonly productDescription: Locator;
@@ -13,8 +13,8 @@ export class ProductListPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.menuBtn = page.getByRole('button', { name: 'Open Menu' });
-        this.shoppingCartBtn = page.getByTestId('shopping-cart-link');
+        this.menuButton = page.getByRole('button', { name: 'Open Menu' });
+        this.shoppingCartButton = page.getByTestId('shopping-cart-link');
         this.shoppingCartBadge = page.getByTestId('shopping-cart-badge');
         this.productsHeader = page.getByTestId('title');
         this.productDescription = page.getByTestId('inventory-item-description');
@@ -24,11 +24,11 @@ export class ProductListPage {
     }
 
     async clickOnTheMenuButton() {
-        await this.menuBtn.click();
+        await this.menuButton.click();
     }
 
     async clickOnTheShoppingCart() {
-        await this.shoppingCartBtn.click();
+        await this.shoppingCartButton.click();
     }
 
     async getProductsTitle() {

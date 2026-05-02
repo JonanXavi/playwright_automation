@@ -1,16 +1,16 @@
 import { request } from '@playwright/test';
-import { ENV } from './env'
+import { ENV } from './env';
 
 const API_URL = ENV.BASE_URL;
 const CREDENTIALS = {
     username: ENV.USER,
-    password: ENV.PASSWORD
+    password: ENV.PASSWORD,
 };
 
-export async function getAuthToken(): Promise<string> {
+export async function getAuthToken() {
     const context = await request.newContext();
     const response = await context.post(`${API_URL}/auth`, {
-        data: CREDENTIALS
+        data: CREDENTIALS,
     });
 
     const responseBody = await response.json();
