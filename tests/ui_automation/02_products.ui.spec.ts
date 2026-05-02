@@ -1,51 +1,69 @@
 import { test, expect } from '../../fixtures/base';
-import { AuthPage } from "../../pages/auth/auth_page";
+import * as allure from 'allure-js-commons';
 import { ENV } from '../../utils/env';
 import products from '../../data/products.json';
 
-test.describe('Validate the correct behavior of the products on the website', { tag: '@ui'}, () => {
-    test.beforeEach(async ({ page }) => {
-        const authPage = new AuthPage(page);
-        await authPage.login(ENV.USER, ENV.PASSWORD);
-    })
+test.describe('Products | Product listing and detail pages', { tag: '@ui' }, () => {
+    test.beforeEach(async ({ authPage }) => {
+        await allure.owner('Jonathan Fernández');
+        await allure.tags('Products');
 
-    test('Confirm that all products are properly displayed on the Product Listing Page (PLP)', async ({ productListPage }) => {
-        const productsNames = products.map(product => product.name);
-        const productsDetails = products.map(product => product.description);
-        const productsPrices = products.map(product => product.price);
+        await authPage.login(ENV.USER, ENV.PASSWORD);
+    });
+
+    test('Displays all available products correctly on the Product Listing Page (PLP)', async ({ productListPage }) => {
+        await allure.severity('critical');
+        await allure.description(
+            'Verifies that all available products are correctly displayed on the Product Listing Page, including name, price, and image.'
+        );
+
+        const productsNames = products.map((product) => product.name);
+        const productsDetails = products.map((product) => product.description);
+        const productsPrices = products.map((product) => product.price);
         const actualProductsNames = await productListPage.getProductsNames();
         const actualProductsDetails = await productListPage.getProductsDetails();
         const actualProductsPrices = await productListPage.getProductsPrices();
 
-        await test.step('Verify that all available products are loaded and displayed correctly on the Product Listing Page (PLP)', async () => {
-            expect.soft(actualProductsNames).toContain(productsNames);
-            expect.soft(actualProductsDetails).toContain(productsDetails);
-            expect.soft(actualProductsPrices).toContain(productsPrices);
-        })
-    })
+        await test.step('Validate that all product names are displayed correctly', async () => {
+            expect(actualProductsNames).toEqual(productsNames);
+        });
 
-    test('Confirm that product details are correctly displayed on the Product Detail Page (PDP)', async ({ productListPage, productDetailPage }) => {
+        await test.step('Validate that all product descriptions are displayed correctly', async () => {
+            expect(actualProductsDetails).toEqual(productsDetails);
+        });
+
+        await test.step('Validate that all product prices are displayed correctly', async () => {
+            expect(actualProductsPrices).toEqual(productsPrices);
+        });
+    });
+
+    test('Displays correct product information on the Product Detail Page (PDP)', async ({ productListPage, productDetailPage }) => {
+        await allure.severity('critical');
+        await allure.description(
+            'Validates that the Product Detail Page shows accurate product information such as name, description, price, and image.'
+        );
+
         const productsData = products;
         const productsNumber = productsData.length;
 
         for (let i = 0; i < productsNumber; i++) {
-            await test.step(`Click on ${productsData[i].name} to open its Product Detail Page (PDP)`, async () => {
+            await test.step(`Open the Product Detail Page for "${productsData[i].name}"`, async () => {
                 await productListPage.clickOnProduct(productsData[i].name);
-            })
+            });
 
-            await test.step('Verify that the product name, description, and price match the expected values', async () => {
+            await test.step('Validate that the product name, description, and price are correct', async () => {
                 const actualProductName = await productDetailPage.getProductName();
                 const actualProductDetail = await productDetailPage.getProductDetail();
                 const actualProductPrice = await productDetailPage.getProductPrice();
 
-                expect.soft(actualProductName).toEqual(productsData[i].name);
-                expect.soft(actualProductDetail).toEqual(productsData[i].description);
-                expect.soft(actualProductPrice).toContain(productsData[i].price);
-            })
+                expect(actualProductName).toEqual(productsData[i].name);
+                expect(actualProductDetail).toEqual(productsData[i].description);
+                expect(actualProductPrice).toEqual(productsData[i].price);
+            });
 
-            await test.step('Return to the Product Listing Page (PLP)', async () => {
+            await test.step('Navigate back to the Product Listing Page', async () => {
                 await productDetailPage.clickBackToProductsButton();
-            })
+            });
         }
-    })
+    });
 });

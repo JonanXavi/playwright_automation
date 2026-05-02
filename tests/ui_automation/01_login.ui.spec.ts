@@ -1,103 +1,127 @@
 import { test, expect } from '../../fixtures/base';
+import * as allure from 'allure-js-commons';
 import users from '../../data/users.json';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test.describe('Validate the correct behavior of the login functionality on the website', { tag: '@ui'}, () => {
-    test('Confirm that the username field is validated as required in the login form', async ({ authPage }) => {
-        await test.step('Click the "Login" button without entering any credentials', async () => {
-            await authPage.clickLoginButton();
-        })
+test.describe('Login | User authentication flow', { tag: '@ui' }, () => {
+    test.beforeEach(async () => {
+        await allure.owner('Jonathan Fernández');
+        await allure.tags('Authentication');
+    });
 
-        await test.step('Verify that the "Username is required" validation message is displayed', async () => {
+    test('Displays a validation message when the username field is left empty', async ({ authPage }) => {
+        await allure.severity('minor');
+        await allure.description('Displays an error message when the username field is left empty');
+
+        await test.step('Attempt to login without entering any credentials', async () => {
+            await authPage.clickLoginButton();
+        });
+
+        await test.step('Validate that the required username error message is shown', async () => {
             const userErrorMessage = await authPage.getErrorMessage();
             expect(userErrorMessage).toContain('Username is required');
-        })
-    })
+        });
+    });
 
-    test('Confirm that the password field is validated as required in the login form', async ({ testUser, authPage }) => {
-        await test.step('Enter a valid username in the login form', async () => {
+    test('Displays a validation message when the password field is left empty', async ({ testUser, authPage }) => {
+        await allure.severity('minor');
+        await allure.description('Displays an error message when the password field is left empty');
+
+        await test.step('Enter a valid username', async () => {
             await authPage.typeUsername(testUser.username);
-        })
+        });
 
-        await test.step('Click the "Login" button without entering a password', async () => {
+        await test.step('Attempt to login without entering a password', async () => {
             await authPage.clickLoginButton();
-        })
+        });
 
-        await test.step('Verify that the "Password is required" validation message is displayed', async () => {
+        await test.step('Validate that the required password error message is shown', async () => {
             const passwordErrorMessage = await authPage.getErrorMessage();
             expect(passwordErrorMessage).toContain('Password is required');
-        })
-    })
+        });
+    });
 
-    test('Confirm that login is rejected when using invalid credentials', async ({ authPage }) => {
+    test('Prevents login when invalid credentials are provided', async ({ authPage }) => {
+        await allure.severity('critical');
+        await allure.description('Prevents login when the provided credentials are incorrect');
+
         const userData = users.invalidUser;
 
-        await test.step('Enter invalid username and/or password in the login form', async () => {
+        await test.step('Enter invalid username and password', async () => {
             await authPage.typeUsername(userData.username);
             await authPage.typePassword(userData.password);
-        })
+        });
 
-        await test.step('Click the "Login" button', async () => {
+        await test.step('Submit the login form', async () => {
             await authPage.clickLoginButton();
-        })
+        });
 
-        await test.step('Verify that access is denied and an appropriate error message is displayed', async () => {
+        await test.step('Validate that an authentication error message is displayed', async () => {
             const userErrorMessage = await authPage.getErrorMessage();
             expect(userErrorMessage).toContain('Username and password do not match any user in this service');
-        })
-    })
+        });
+    });
 
-    test('Confirm that login is rejected for a locked user account', async ({ authPage }) => {
+    test('Denies access to a locked user account', async ({ authPage }) => {
+        await allure.severity('critical');
+        await allure.description('Verifies that a locked user cannot log in');
+
         const userData = users.lockedUser;
 
-        await test.step('Enter valid credentials for a locked user in the login form', async () => {
+        await test.step('Enter valid credentials for a locked user', async () => {
             await authPage.typeUsername(userData.username);
             await authPage.typePassword(userData.password);
-        })
+        });
 
-        await test.step('Click the "Login" button', async () => {
+        await test.step('Submit the login form', async () => {
             await authPage.clickLoginButton();
-        })
+        });
 
-        await test.step('Verify that access is denied and a corresponding error message is displayed', async () => {
+        await test.step('Validate that the locked account error message is displayed', async () => {
             const userErrorMessage = await authPage.getErrorMessage();
             expect(userErrorMessage).toContain('Sorry, this user has been locked out');
-        })
-    })
+        });
+    });
 
-    test('Confirm that a registered user can successfully login', async ({ testUser, authPage, productListPage }) => {
-        await test.step('Enter valid credentials for a registered user in the login form', async () => {
+    test('Allows a registered user to login successfully', async ({ testUser, authPage, productListPage }) => {
+        await allure.severity('blocker');
+        await allure.description('Allows a registered user to log in successfully');
+
+        await test.step('Enter valid user credentials', async () => {
             await authPage.typeUsername(testUser.username);
             await authPage.typePassword(testUser.password);
-        })
+        });
 
-        await test.step('Click the "Login" button', async () => {
+        await test.step('Submit the login form', async () => {
             await authPage.clickLoginButton();
-        })
+        });
 
-        await test.step('Verify that the user is successfully authenticated and granted access to the website', async () => {
+        await test.step('Validate that the user is redirected to the products page', async () => {
             const productsTitle = await productListPage.getProductsTitle();
             expect(productsTitle).toContain('Products');
-        })
-    })
+        });
+    });
 
-    test('Confirm that the user is successfully logged out of the session', async ({ testUser, authPage, menuPage, productListPage }) => {
-        await test.step('Log in using valid credentials', async () => {
+    test('Logs out the user and redirects to the login page', async ({ testUser, authPage, menuPage, productListPage }) => {
+        await allure.severity('critical');
+        await allure.description('Logs out the user and redirects them to the login page');
+
+        await test.step('Login using valid credentials', async () => {
             await authPage.login(testUser.username, testUser.password);
-        })
+        });
 
-        await test.step('Open the navigation menu by clicking the menu button', async () => {
+        await test.step('Open the navigation menu', async () => {
             await productListPage.clickOnTheMenuButton();
-        })
+        });
 
-        await test.step('Select the "Logout" option from the menu', async () => {
+        await test.step('Click on the logout option', async () => {
             await menuPage.clickOnTheLogoutOption();
-        })
+        });
 
-        await test.step('Verify that the user is redirected to the login page and the application logo is visible', async () => {
+        await test.step('Validate that the login page is displayed', async () => {
             const logoVisibility = await authPage.isLogoVisible();
             expect(logoVisibility).toBe(true);
-        })
-    })
+        });
+    });
 });

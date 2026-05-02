@@ -1,11 +1,11 @@
 import { test as base } from '@playwright/test';
 import { ENV } from '../utils/env';
-import { AuthPage } from '../pages/auth/auth_page';
-import { MenuPage } from "../pages/menu/menu_page";
-import { ProductListPage } from "../pages/product/plp_page";
-import { ProductDetailPage } from "../pages/product/pdp_page";
-import { CartPage } from '../pages/cart/cart_page';
-import { CheckoutPage } from '../pages/checkout/checkout_page';
+import { AuthPage } from '../pages/auth/auth-page';
+import { MenuPage } from '../pages/menu/menu-page';
+import { ProductListPage } from '../pages/product/plp-page';
+import { ProductDetailPage } from '../pages/product/pdp-page';
+import { CartPage } from '../pages/cart/cart-page';
+import { CheckoutPage } from '../pages/checkout/checkout-page';
 
 interface User {
     username: string;
@@ -27,10 +27,10 @@ export const test = base.extend<BaseFixtures>({
         async ({}, use) => {
             await use({
                 username: ENV.USER,
-                password: ENV.PASSWORD
+                password: ENV.PASSWORD,
             });
         },
-        { option: true }
+        { option: true },
     ],
 
     page: async ({ page }, use) => {
