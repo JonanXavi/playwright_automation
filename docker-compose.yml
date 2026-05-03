@@ -1,0 +1,29 @@
+services:
+    # Playwright Tests
+    tests:
+        build: .
+        image: playwright-automation
+        container_name: playwright-tests
+        volumes:
+            - ./allure-results:/app/allure-results
+            - ./test-results:/app/test-results
+        env_file:
+            - .env.dev
+        command: npm run test:ui
+
+    # Generate report
+    report:
+        image: playwright-automation
+        container_name: allure-report-generator
+        volumes:
+            - ./allure-report:/app/allure-report
+            - ./allure-results:/app/allure-results
+        command: sh -c "rm -rf /app/allure-report/* && npm run test:report"
+
+    # Allure Server
+    serve:
+        image: nginx:alpine
+        volumes:
+            - ./allure-report:/usr/share/nginx/html:ro
+        ports:
+            - '5051:80'
