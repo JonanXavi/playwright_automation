@@ -13,11 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
 
-    env:
-      BASE_URL: ${{ secrets.BASE_URL_DEV }}
-      USER: ${{ secrets.USER_DEV }}
-      PASSWORD: ${{ secrets.PASSWORD_DEV }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,14 +20,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
+      - name: Create .env.dev
+        run: |
+          echo BASE_URL=${{ secrets.BASE_URL_DEV }} > .env.dev
+          echo USER=${{ secrets.USER_DEV }} >> .env.dev
+          echo PASSWORD=${{ secrets.PASSWORD_DEV }} >> .env.dev
+
+      - name: Debug .env.dev
+        run: cat .env.dev
+
       - name: Build Test Environment
         run: docker compose build --pull
-
-      - name: Create .env.dev
-        run:
-          echo BASE_URL=$BASE_URL > .env.dev
-          echo USER=$USER >> .env.dev
-          echo PASSWORD=$PASSWORD >> .env.dev
 
       - name: Execute Playwright UI Tests
         run: docker compose run --rm tests
