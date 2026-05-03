@@ -4,12 +4,12 @@ import { ENV } from './utils/env';
 
 export default defineConfig({
     testDir: './tests',
-    timeout: 2 * 60 * 1000,
+    timeout: 60 * 1000,
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 1 : 2,
-    workers: process.env.CI ? 1 : 2,
     reporter: [
+        ['list'],
         [
             'allure-playwright',
             {
@@ -43,6 +43,7 @@ export default defineConfig({
                 trace: 'retain-on-failure',
                 video: 'retain-on-failure',
             },
+            workers: process.env.CI ? 1 : 2,
             dependencies: ['setup'],
         },
         {
@@ -53,6 +54,7 @@ export default defineConfig({
                     'Content-Type': 'application/json',
                 },
             },
+            workers: process.env.CI ? 1 : 1,
         },
     ],
 });

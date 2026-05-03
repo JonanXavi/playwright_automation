@@ -1,6 +1,6 @@
 {
     "name": "playwright_automation",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "description": "Web automation project with playwright",
     "main": "index.ts",
     "scripts": {
@@ -11,7 +11,13 @@
         "test:ui": "npx playwright test --project=ui_test --grep \"@ui\"",
         "test:api": "npx playwright test --project=api_test --grep \"@api\"",
         "test:report": "npx allure generate ./allure-results",
-        "report:open": "npx allure open ./allure-report"
+        "report:open": "npx allure open ./allure-report",
+        "docker:build": "docker build -t playwright-automation .",
+        "docker:test": "docker compose run --rm tests",
+        "docker:report": "docker compose run --rm report",
+        "docker:serve": "docker compose up -d serve",
+        "docker:down": "docker compose down",
+        "docker:execution": "npm run docker:down && npm run docker:test && npm run docker:report && npm run docker:serve"
     },
     "keywords": [
         "playwright",
@@ -23,7 +29,7 @@
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@faker-js/faker": "^9.5.0",
-        "@playwright/test": "^1.51.0",
+        "@playwright/test": "^1.59.1",
         "@types/node": "^22.12.0",
         "@typescript-eslint/eslint-plugin": "^8.59.1",
         "@typescript-eslint/parser": "^8.59.1",
