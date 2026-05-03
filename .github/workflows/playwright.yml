@@ -1,8 +1,6 @@
 name: Run Playwright Tests
 
 on:
-  push:
-    branches: [ main, github ]
   workflow_dispatch:
 
 jobs:
@@ -22,17 +20,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create .env.dev
-        run:
-          echo BASE_URL=$BASE_URL > .env.dev
-          echo USER=$USER >> .env.dev
-          echo PASSWORD=$PASSWORD >> .env.dev
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Build Test Environment
         run: docker compose build --pull
+
+      - name: Create .env.dev
+        run:
+          echo BASE_URL=$BASE_URL > .env.dev
+          echo USER=$USER >> .env.dev
+          echo PASSWORD=$PASSWORD >> .env.dev
 
       - name: Execute Playwright UI Tests
         run: docker compose run --rm tests
