@@ -22,9 +22,9 @@ jobs:
 
       - name: Create .env.dev
         run: |
-          echo BASE_URL=${{ secrets.BASE_URL_DEV }} > .env.dev
-          echo USER=${{ secrets.USER_DEV }} >> .env.dev
-          echo PASSWORD=${{ secrets.PASSWORD_DEV }} >> .env.dev
+          echo "BASE_URL=${{ secrets.BASE_URL_DEV }}" > .env.dev
+          echo "USER=${{ secrets.USER_DEV }}" >> .env.dev
+          echo "PASSWORD=${{ secrets.PASSWORD_DEV }}" >> .env.dev
 
       - name: Debug .env.dev
         run: cat .env.dev
