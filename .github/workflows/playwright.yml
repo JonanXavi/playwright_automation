@@ -1,11 +1,9 @@
 name: Run Playwright Tests
 
 on:
+  push:
+    branches: [ github ]
   workflow_dispatch:
-    inputs:
-      name:
-        description: "Who to greet"
-        default: "World"
 
 jobs:
   test:
