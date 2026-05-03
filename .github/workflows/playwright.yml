@@ -2,7 +2,7 @@ name: Run Playwright Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, github ]
   workflow_dispatch:
 
 jobs:
