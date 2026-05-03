@@ -2,6 +2,10 @@ name: Run Playwright Tests
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        description: "Who to greet"
+        default: "World"
 
 jobs:
   test:
