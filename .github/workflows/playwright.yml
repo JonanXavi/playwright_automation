@@ -27,11 +27,22 @@ jobs:
                     echo "PASSWORD=${{ secrets.PASSWORD_DEV }}"
                   } > .env.dev
 
+            - name: Create .env.api
+              run: |
+                  {
+                      echo "URL=${{ secrets.API_URL }}"
+                      echo "USER=${{ secrets.USER_API }}"
+                      echo "PASSWORD=${{ secrets.PASSWORD_API }}"
+                  } > .env.api
+
             - name: Build Test Environment
               run: docker compose build --pull
 
             - name: Execute Playwright UI Tests
-              run: docker compose run --rm tests
+              run: docker compose run --rm tests-ui
+
+            - name: Execute Playwright API Tests
+              run: docker compose run --rm tests-api
 
             - name: Generate Allure Test Report
               run: docker compose run --rm report
