@@ -10,7 +10,6 @@ jobs:
             contents: write
         timeout-minutes: 30
         runs-on: ubuntu-latest
-        continue-on-error: true
 
         steps:
             - name: Checkout repository
@@ -40,11 +39,14 @@ jobs:
 
             - name: Execute Playwright UI Tests
               run: docker compose run --rm tests-ui
+              continue-on-error: true
 
             - name: Execute Playwright API Tests
               run: docker compose run --rm tests-api
+              continue-on-error: true
 
             - name: Generate Allure Test Report
+              if: always()
               run: docker compose run --rm report
 
             - name: Upload Allure Report
