@@ -1,0 +1,65 @@
+name: Run Playwright Tests
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    test:
+        permissions:
+            contents: write
+        timeout-minutes: 30
+        runs-on: ubuntu-latest
+        continue-on-error: true
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v4
+
+            - name: Create .env.dev
+              run: |
+                  {
+                    echo "URL=${{ secrets.BASE_URL_DEV }}"
+                    echo "USER=${{ secrets.USER_DEV }}"
+                    echo "PASSWORD=${{ secrets.PASSWORD_DEV }}"
+                  } > .env.dev
+
+            - name: Create .env.api
+              run: |
+                  {
+                      echo "URL=${{ secrets.API_URL }}"
+                      echo "USER=${{ secrets.USER_API }}"
+                      echo "PASSWORD=${{ secrets.PASSWORD_API }}"
+                  } > .env.api
+
+            - name: Build Test Environment
+              run: docker compose build --pull
+
+            - name: Execute Playwright UI Tests
+              run: docker compose run --rm tests-ui
+
+            - name: Execute Playwright API Tests
+              run: docker compose run --rm tests-api
+
+            - name: Generate Allure Test Report
+              run: docker compose run --rm report
+
+            - name: Upload Allure Report
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: allure-report
+                  path: allure-report/
+                  retention-days: 30
+
+            - name: Publish Report to GitHub Pages
+              if: always()
+              uses: crazy-max/ghaction-github-pages@v5
+              with:
+                  target_branch: gh-pages
+                  build_dir: allure-report
+              env:
+                  GITHUB_TOKEN: ${{ secrets.TOKEN }}

@@ -1,6 +1,6 @@
 {
     "name": "playwright_automation",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "Web automation project with playwright",
     "main": "index.ts",
     "scripts": {
@@ -13,11 +13,11 @@
         "test:report": "npx allure generate ./allure-results",
         "report:open": "npx allure open ./allure-report",
         "docker:build": "docker build -t playwright-automation .",
-        "docker:test": "docker compose run --rm tests",
+        "docker:tests": "docker compose run --rm tests-ui && docker compose run --rm tests-api",
         "docker:report": "docker compose run --rm report",
         "docker:serve": "docker compose up -d serve",
         "docker:down": "docker compose down",
-        "docker:execution": "npm run docker:down && npm run docker:test && npm run docker:report && npm run docker:serve"
+        "docker:execution": "npm run docker:down && npm run docker:tests && npm run docker:report && npm run docker:serve"
     },
     "keywords": [
         "playwright",

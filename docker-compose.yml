@@ -1,6 +1,6 @@
 services:
-    # Playwright Tests
-    tests:
+    # UI Tests
+    tests-ui:
         build: .
         image: playwright-automation
         container_name: playwright-tests
@@ -10,6 +10,17 @@ services:
         env_file:
             - .env.dev
         command: npm run test:ui
+
+    # API Tests
+    tests-api:
+        image: playwright-automation
+        container_name: playwright-api-tests
+        volumes:
+            - ./allure-results:/app/allure-results
+            - ./test-results:/app/test-results
+        env_file:
+            - .env.api
+        command: npm run test:api
 
     # Generate report
     report:
