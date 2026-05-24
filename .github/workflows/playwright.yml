@@ -3,7 +3,6 @@ name: Run Playwright Tests
 on:
   push:
     branches: [ github ]
-  workflow_dispatch:
 
 jobs:
   test:
@@ -15,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -47,3 +46,11 @@ jobs:
           name: allure-report
           path: allure-report/
           retention-days: 30
+
+      - name: Publish Report to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v5
+        with:
+          target_branch: gh-pages
+          build_dir: allure-report
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
